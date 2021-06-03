@@ -28,6 +28,9 @@
 			display: inline-block;
 			font-size: 1.0rem;
 		}
+		em.hl {
+			background-color: yellow;
+		}
 		</style>
 
 		<script src="plugin/math/math.js"></script>
@@ -237,6 +240,49 @@ print(json.dumps(results, indent=2))
 </script>
 </code>
 </pre>
+				</section>
+
+				<section>
+				<p>Search Results</p>
+<div style="display: flex; justify-content: space-around;">
+
+<pre style="width: 400px; padding: 1rem; background-color: white; font-size: 0.7rem; word-break:break-all;white-space:pre-wrap;">
+Index directory: /root/.cache/pya0/indexes/mnt-mse-ecir2020.35bcbc0f144ff4dd8baf35d439a6cc28
+{
+  "ret_code": 0,
+  "ret_str": "Successful",
+  "tot_pages": 1,
+  "hits": [
+    {
+      "docid": 407825,
+      "score": 79.334,
+      "title": "modulo division of inverse numbers",
+      "url": "http://math.stackexchange.com/questions/705441/modulo-division-of-inverse-numbers",
+      "snippet": "modulo division of <em class=\"hl\">inverse</em> numbers  I am working on some modulo arithmetic and I do not seem to understand why [imath]28^{-1} (mod59)= 19 (mod59)=55[/imath] is a ... .0035  For example, [imat
+h]\\;28\\cdot 19=9\\cdot 29\\color{red}{+1}\\;[/imath] ....that's why. en.wikipedia.org/wiki/Modular_multiplicative_<em class=\"hl\">inverse</em>  In modular arithmetic, the multiplicative <em class=\"hl\">inverse</em> is generally
+ not defined as <em class=\"hl\">[imath]x^{-1} = \\frac{1}{x}[/imath]</em>. It's instead generally defined as an integer such that [imath]x\\cdot x^{-1} \\equiv 1 \\mod{n}[/imath]. For example, the multiplicative <em class=\"hl\">i
+nverse</em> of [imath]3[/imath] modulo [imath]5[/imath] would be [imath]2[/imath], because [imath]3\\cdot 2 = 6 \\equiv 1 \\mod 5[/imath]. In your case, [imath]19[/imath] is the multiplicative <em class=\"hl\">inverse</em> of [imat
+h]28[/imath] modulo [imath]59[/imath] because [imath]28\\cdot19 = 532 \\equiv 1 \\mod 59[/imath].  Actually, most people would say that [imath]x^{-1}[/imath] and [imath]1/x[/imath] are the same thing, just symbols meaning \"the mul
+tiplicative <em class=\"hl\">inverse</em> of [imath]x[/imath]\". It is very common to see modular inverses written as fractions in the literature.  ... "
+    },
+	...
+</pre>
+
+<div style="padding: 1rem; width: 400px; word-break:word; text-align:left;">
+<tiny>
+modulo division of <em class="hl">inverse</em> numbers  I am working on some modulo arithmetic and I do not seem to understand why
+$28^{-1} (mod59)= 19 (mod59)=55$ is a ... .0035  For example, $28\cdot 19=9\cdot 29\color{red}{+1}\;$ ....that's why. en.wikipedia.org/wiki/Modular_multiplicative_<em class="hl">inverse</em>
+In modular arithmetic, the multiplicative <em class="hl">inverse</em> is generally
+not defined as <em class="hl">$x^{-1} = \frac{1}{x}$</em>.
+It's instead generally defined as an integer such that $x\cdot x^{-1} \equiv 1 \mod{n}$.
+For example, the multiplicative <em class="hl">inverse</em> of $3$ modulo $5$ would be $2$, because $3\cdot 2 = 6 \equiv 1 \mod 5$.
+In your case, $19$ is the multiplicative <em class="hl">inverse</em> of $28$ modulo $59$ because $28\cdot19 = 532 \equiv 1 \mod 59$.
+Actually, most people would say that $x^{-1}$ and $1/x$ are the same thing, just symbols meaning "the multiplicative <em class="hl">inverse</em> of $x$.
+It is very common to see modular inverses written as fractions in the literature.  ...
+</tiny>
+</div>
+
+</div>
 				</section>
 
 			</div> <!-- END of slides div -->
