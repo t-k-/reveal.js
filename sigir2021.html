@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>
+		PyA0: A Python Toolkit for Accessible Math-Aware Search
+		</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/beige.css" id="theme">
+
+		<style>
+		li {
+			margin-top: 2rem;
+		}
+		tiny {
+			display: inline-block;
+			font-size: 1.0rem;
+		}
+		</style>
+
+		<script src="plugin/math/math.js"></script>
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/zenburn.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<p>PyA0: A Python Toolkit for Accessible <br/>Math-Aware Search</p>
+					<p><small>Wei Zhong and Jimmy Lin</small></p>
+					<p><small>University of Waterloo, Ontario, Canada</small></p>
+					<img src="img/dsg-logo.jpg" style="height: 80px; margin: 0 auto 4rem auto;"/>
+				</section>
+
+				<section>
+					<p>Usecase</p>
+					<div style="margin: 5rem;"/>
+					<small>
+					<ul>
+					<li>Educational APP (Microsoft Math Solver, Google Socratic etc.)</li>
+					<li>Math Q&A Websites (Math StackExchange, AoPS etc.)</li>
+					<li>Scientific papers, books and other digital assets</li>
+					</ul>
+					</small>
+				</section>
+
+				<section>
+					<div style="display: flex; justify-content: space-around;">
+						<div> <img src="img/a0.png" style="height: 400px; border:2px solid grey;"/><tiny>(https://approach0.xyz)</tiny> </div>
+						<div> <img src="img/ms.png" style="height: 400px; border:2px solid grey;"/><tiny>(https://math.microsoft.com)</tiny> </div>
+					<div>
+				</section>
+
+				<section>
+					<p>Internal Picture</p>
+					<img src="img/architecture.svg" style="height: 300px;"/><br/>
+					<tiny>The overall architecture in Approach Zero system</tiny>
+				</section>
+
+				<section>
+					<p>Accessibility?</p>
+					<div style="margin: 5rem;"/>
+					<small style="text-align: left">
+					Things you might need to do for adding effective math-awareness:
+					<ul>
+					<li>Parse LaTeX or other math markups, and maybe MathML as well</li>
+					<li>Extract features from the output of the parser, and take a lot of time converting the corpus...</li>
+					<li>Record docID and exprID in your index, figure out how to highlight the formulas in search results</li>
+					<li>Perform structure matching?</li>
+					</ul>
+					</small>
+				</section>
+
+				<section>
+					<p>Get Started</p>
+					<div style="margin: 5rem;"/>
+					<pre data-id="code-animation"><code class="hljs" data-trim>
+					$ pip install pya0==0.2.9
+					</code></pre>
+					<div style="margin: 5rem;"/>
+					<tiny style="text-align: left">
+					For environment setup, please check out
+					<ul>
+						<li>Source code: <a href="https://github.com/approach0/search-engine/tree/pya0">https://github.com/approach0/search-engine/tree/pya0</a></li>
+						<li>Colab: <a href="https://colab.research.google.com/drive/1lhG5KlXogG-ulIPF9wEwHeHFLJvx__H-">https://colab.research.google.com/drive/1lhG5KlXogG-ulIPF9wEwHeHFLJvx__H-</a></li>
+					</ul>
+					</tiny>
+				</section>
+
+				<section data-auto-animate>
+					<p>Tokenizing Math Markups</p>
+					<div style="margin: 5rem;"/>
+					<small>What if we want to tokenize $\boxed{ \beta \in \mathbb{R} }$ ?</small>
+
+					<pre data-id="code-animation">
+					<code class="hljs" data-trim data-line-numbers>
+					<script type="text/template">
+					import pya0
+					tokens = pya0.tokenize("\\beta \\in \\mathbb{R}")
+					print(tokens)
+					</script>
+					</code>
+					</pre>
+
+					<pre style="padding: 1rem; background-color: white; font-size: 0.9rem;">
+	[(260, 'VAR', 'beta'), (271, 'INNI', 'in'), (260, 'VAR', "blackboard-bold`R'")]
+					</pre>
+				</section>
+
+				<section data-auto-animate>
+					<p>Parsing</p>
+<pre data-id="code-animation">
+<code class="hljs" data-trim data-line-numbers="1|10,12,14,18|3-8">
+<script type="text/template">
+import pya0
+
+def print_OPT(OPT, level=0):
+    nodeID, token, symbol, children = OPT
+    space = '   ' * level
+    print(f'{space}#{nodeID} {token} {symbol}')
+    for rank, c in enumerate(children):
+        print_OPT(c, level=level+1)
+
+def parse_and_print(tex):
+    print(f'Parse: {tex}')
+    res, OPT = pya0.parse(tex)
+    if res == 'OK':
+        print_OPT(OPT)
+    else:
+        print('Error: ', res)
+
+parse_and_print("a^2 + b^2 = c^2")
+</script>
+</code>
+</pre>
+				</section>
+
+				<section>
+<div style="display: flex; justify-content: space-around; align-items: center;">
+<pre style="width: 300px; padding: 1rem; background-color: white; font-size: 0.9rem;">
+#7 GTLS equal
+   #8 ADD plus
+      #9 SIGN pos
+         #10 HANGER hanger
+            #11 BASE base
+               #1 VAR normal`a'
+            #12 SUPSCRIPT supscript
+               #2 NUM `2'
+      #13 SIGN pos
+         #14 HANGER hanger
+            #15 BASE base
+               #3 VAR normal`b'
+            #16 SUPSCRIPT supscript
+               #4 NUM `2'
+   #17 HANGER hanger
+      #18 BASE base
+         #5 VAR normal`c'
+      #19 SUPSCRIPT supscript
+         #6 NUM `2'
+</pre>
+<div class="mermaid" style="width: 800px; height: 450px; margin-left: 2rem;">
+    graph TD
+        7["#7 GTLS (equal)"]
+        8["#8 ADD (plus)"]
+        9["#9 SIGN (pos)"]
+        10["#10 HANGER (hanger)"]
+        11["#11 BASE (base)"]
+        1["#1 VAR (normal`a')"]
+        12["#12 SUPSCRIPT (supscript)"]
+        2["#2 NUM (`2')"]
+        13["#13 SIGN (neg)"]
+        14["#14 HANGER (hanger)"]
+        15["#15 BASE (base)"]
+        3["#3 VAR (normal`b')"]
+        16["#16 SUPSCRIPT (supscript)"]
+        4["#4 NUM (`2')"]
+        17["#17 HANGER (hanger)"]
+        18["#18 BASE (base)"]
+        5["#5 VAR (normal`c')"]
+        19["#19 SUPSCRIPT (supscript)"]
+        6["#6 NUM (`2')"]
+        7 --> 8
+        8 --> 9
+        9 --> 10
+        10 --> 11
+        11 --> 1
+        10 --> 12
+        12 --> 2
+        8 --> 13
+        13 --> 14
+        14 --> 15
+        15 --> 3
+        14 --> 16
+        16 --> 4
+        7 --> 17
+        17 --> 18
+        18 --> 5
+        17 --> 19
+        19 --> 6
+</div>
+</div>
+	<tiny>Program output (on the left) and rendered result (on the right) for formula $\; a^2 + b^2 = c^2$</tiny>
+				</section>
+
+				<section>
+				<p>Search</p>
+				<tiny>Search a math keyword $\boxed{x^{-1}=\frac{1}{x}}$ and a text keyword $\boxed{\text{inverse}}$ on a pre-built index</tiny>
+<pre data-id="code-animation">
+<code class="hljs" data-trim data-line-numbers="3|4-8|9-10">
+<script type="text/template">
+import json
+import pya0
+index_path = pya0.from_prebuilt_index("ntcir12-math-browsing")
+index = pya0.index_open(index_path, option="r")
+JSON = pya0.search(index, [
+  {'keyword': 'x^{-1}=\\frac{1}{x}', 'type': 'tex'},
+  {'keyword': 'inverse', 'type': 'term'}
+], verbose=False, topk=3)
+results = json.loads(JSON)
+print(json.dumps(results, indent=2))
+</script>
+</code>
+</pre>
+				</section>
+
+			</div> <!-- END of slides div -->
+
+		</div> <!-- END of reveal.js -->
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				math: {
+					mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+					config: 'TeX-AMS_HTML-full',
+					// pass other options into `MathJax.Hub.Config()`
+					TeX: { Macros: { RR: "{\\bf R}" } }
+				},
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealHighlight, RevealMath ]
+			});
+
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+	</body>
+</html>
