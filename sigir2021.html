@@ -52,7 +52,7 @@
 				</section>
 
 				<section>
-					<p>Usecase</p>
+					<p>Use Case</p>
 					<div style="margin: 5rem;"/>
 					<small>
 					<ul>
@@ -223,13 +223,13 @@ parse_and_print("a^2 + b^2 = c^2")
 
 				<section>
 				<p>Search</p>
-				<tiny>Search a math keyword $\boxed{x^{-1}=\frac{1}{x}}$ and a text keyword $\boxed{\text{inverse}}$ on a pre-built index</tiny>
+				<tiny>Search a math keyword $\boxed{x^{-1}=\frac{1}{x}}$ and a text keyword $\boxed{\text{inverse}}$ on a pre-built index "mse-ecir2020"</tiny>
 <pre data-id="code-animation">
 <code class="hljs" data-trim data-line-numbers="3|4-8|9-10">
 <script type="text/template">
 import json
 import pya0
-index_path = pya0.from_prebuilt_index("ntcir12-math-browsing")
+index_path = pya0.from_prebuilt_index("mse-ecir2020")
 index = pya0.index_open(index_path, option="r")
 JSON = pya0.search(index, [
   {'keyword': 'x^{-1}=\\frac{1}{x}', 'type': 'tex'},
