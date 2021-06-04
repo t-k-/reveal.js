@@ -91,7 +91,7 @@
 				</section>
 
 				<section>
-					<p>Get Started</p>
+					<p>Getting Started</p>
 					<div style="margin: 5rem;"/>
 					<pre data-id="code-animation"><code class="hljs" data-trim>
 					$ pip install pya0==0.2.9
@@ -245,7 +245,6 @@ print(json.dumps(results, indent=2))
 				<section>
 				<p>Search Results</p>
 <div style="display: flex; justify-content: space-around;">
-
 <pre style="width: 400px; padding: 1rem; background-color: white; font-size: 0.7rem; word-break:break-all;white-space:pre-wrap;">
 Index directory: /root/.cache/pya0/indexes/mnt-mse-ecir2020.35bcbc0f144ff4dd8baf35d439a6cc28
 {
@@ -284,6 +283,62 @@ It is very common to see modular inverses written as fractions in the literature
 
 </div>
 				</section>
+
+				<section>
+				<p>Reproduce Results</p>
+
+<div style="text-align: left; padding-left: 3rem;">
+<tiny>Produce our paper results with only a few lines of code:</tiny>
+</div>
+
+<pre data-id="code-animation">
+<code class="hljs" data-trim data-line-numbers="1-3|5-9|11-15">
+<script type="text/template">
+import os
+from pya0.eval import run_topics
+from pya0 import index_open, from_prebuilt_index, use_fallback_parser
+
+index_path = from_prebuilt_index("ntcir12-math-browsing")
+index = index_open(index_path, option="r")
+use_fallback_parser(True)
+run_topics(index, 'ntcir12-math-browsing-concrete', 'tmp.run',
+	topk=1000, verbose=False, trec_eval_args='-l 3')
+
+index_path = from_prebuilt_index("arqmath-2020-task1")
+index = index_open(index_path, option="r")
+use_fallback_parser(False)
+run_topics(index, 'arqmath-2020-task1', 'tmp.run',
+	topk=1000, verbose=False, trec_eval_args='-J -m ndcg')
+</script>
+</code>
+</pre>
+				</section>
+
+				<section>
+					<p>Performance</p>
+					<img src="img/tab1.png" style="width: 400px;"/>
+					<br/>
+					<img src="img/tab2.png" style="width: 400px;"/>
+				</section>
+
+				<section>
+					<p>Additional Features</p>
+					<div style="margin: 5rem;"/>
+					<small style="text-align: left">
+					<ul>
+					<li>Cache index and specify memory limit</li>
+					<li>Look up raw document by ID</li>
+					<li>Write and merge index</li>
+					</ul>
+					</small>
+					<br/><br/>
+					<small>You can integrate them into your own pipeline!</small>
+				</section>
+
+				<section>
+					<h3>Thank you!</h3>
+				</section>
+
 
 			</div> <!-- END of slides div -->
 
